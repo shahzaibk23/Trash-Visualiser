@@ -23,7 +23,7 @@ import math
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, c):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -35,7 +35,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setGeometry(QtCore.QRect(0, 99, 900, 581))
         self.tableWidget.setObjectName("tableWidget")
 #         self.tableWidget.setColumnCount(1)
-#         self.tableWidget.setRowCount(1)
+        # #         self.tableWidget.setRowCount(1)
         #-----------------------------------columns------------------
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setVerticalHeaderItem(0, item)
@@ -104,79 +104,94 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        
-
+        self.label_2.setWordWrap(True)
 
 
 
 
 
-        #---------------------------------------------------------Listing all the files from Trash---------------------
-        
-        
-        
-        
-        r = list(winshell.recycle_bin())
-        sizeOfList = len(r)
-        if sizeOfList >= 4:
-            self.tableWidget.setColumnCount(4)
-            self.tableWidget.setRowCount(math.ceil(sizeOfList/4))
 
-        else:
-            self.tableWidget.setColumnCount(sizeOfList)
 
-        class DeletedObject:
-            def __init__(self, obj, typeOfObj,name, sahiPath, size, addOn, row, col):
-                self.obj = obj
-                self.typeOfObj = typeOfObj
-                self.name = name
-                self.sahiPath = sahiPath
-                self.size = size
-                self.addOn = addOn
-                self.row = row
-                self.col = col
-
-        self.dictOfObjs = {}
-        row = 0
-        col = 0
-        def get_dir_size(start_path='.'):
-            total_size = 0
-            for dirpath, dirnames, filenames in os.walk(start_path):
-                for f in filenames:
-                    fp = os.path.join(dirpath, f)
-                    # skip if it is symbolic link
-                    if not os.path.islink(fp):
-                        total_size += os.path.getsize(fp)
-
-            return total_size
-        for i,v in enumerate(r):
-            addOn = []
-            col = i % 4
-            if i != 0 and col == 0:
-                row += 1
-            total = v.original_filename().split('\\')
-            okPath = "\\\\".join(total)
-            v.undelete()
-            if os.path.isdir(okPath):
-                typee = "Folder"
-                size = get_dir_size(okPath)
-                addOn.append([file for file in os.listdir(okPath) if os.path.isdir(okPath + "\\" + file)])
-                addOn.append([file for file in os.listdir(okPath) if os.path.isfile(okPath + "\\" + file)])
-
-                self.FolderCreator(total[-1], row,col)
-            elif os.path.isfile(okPath):
-                typee = "File"
-                size = os.path.getsize(okPath)
-                self.FileCreator(total[-1], row,col)
-            winshell.delete_file(okPath)
-            self.dictOfObjs[i] = DeletedObject(v,typee, total[-1], okPath, size, addOn, row, col)
+        if c == True:
+            #---------------------------------------------------------Listing all the files from Trash---------------------
 
 
 
-            # item = QTableWidgetItem(str(total[-1]+"|"+typee))
-            # item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-            # self.tableWidget.setItem(row,col,item )
+
+            r = list(winshell.recycle_bin())
+            self.sizeOfList = len(r)
+            if self.sizeOfList >= 4:
+                self.tableWidget.setColumnCount(4)
+                self.tableWidget.setRowCount(math.ceil(self.sizeOfList/4))
+
+            else:
+                self.tableWidget.setColumnCount(self.sizeOfList)
+                self.tableWidget.setRowCount(1)
+
+            class DeletedObject:
+                def __init__(self, obj, typeOfObj,name, sahiPath, size, addOn, row, col):
+                    self.obj = obj
+                    self.typeOfObj = typeOfObj
+                    self.name = name
+                    self.sahiPath = sahiPath
+                    self.size = size
+                    self.addOn = addOn
+                    self.row = row
+                    self.col = col
+
+            self.dictOfObjs = {}
+            row = 0
+            col = 0
+            def get_dir_size(start_path='.'):
+                total_size = 0
+                for dirpath, dirnames, filenames in os.walk(start_path):
+                    for f in filenames:
+                        fp = os.path.join(dirpath, f)
+                        # skip if it is symbolic link
+                        if not os.path.islink(fp):
+                            total_size += os.path.getsize(fp)
+
+                return total_size
+            for i,v in enumerate(r):
+                addOn = []
+                col = i % 4
+                if i != 0 and col == 0:
+                    row += 1
+                total = v.original_filename().split('\\')
+                okPath = "\\\\".join(total)
+                v.undelete()
+                if os.path.isdir(okPath):
+                    typee = "Folder"
+                    size = get_dir_size(okPath)
+                    addOn.append([file for file in os.listdir(okPath) if os.path.isdir(okPath + "\\" + file)])
+                    addOn.append([file for file in os.listdir(okPath) if os.path.isfile(okPath + "\\" + file)])
+
+                    self.FolderCreator(total[-1], row,col)
+                elif os.path.isfile(okPath):
+                    typee = "File"
+                    size = os.path.getsize(okPath)
+                    self.FileCreator(total[-1], row,col)
+                winshell.delete_file(okPath)
+                self.dictOfObjs[i] = DeletedObject(v,typee, total[-1], okPath, size, addOn, row, col)
+
+
+
+                # item = QTableWidgetItem(str(total[-1]+"|"+typee))
+                # item.setFlags(item.flags() ^ Qt.ItemIsEditable)
+                # self.tableWidget.setItem(row,col,item )
+        elif c == False:
+            if self.sizeOfList >= 4:
+                self.tableWidget.setColumnCount(4)
+                self.tableWidget.setRowCount(math.ceil(self.sizeOfList/4))
+
+            else:
+                self.tableWidget.setColumnCount(self.sizeOfList)
+                self.tableWidget.setRowCount(1)
+            for k, v in self.dictOfObjs.items():
+                if v.typeOfObj == "File":
+                    self.FileCreator(v.name, v.row, v.col)
+                elif v.typeOfObj == "Folder":
+                    self.FolderCreator(v.name, v.row, v.col)
 
     def FileCreator(self,nameOfFile, fRow, fCol):
         # ----------------------------FILE------------------
@@ -223,7 +238,7 @@ class Ui_MainWindow(object):
         self.folderLabel.setText(_translate("MainWindow", str(nameOfFolder)))
 
         self.tableWidget.setCellWidget(fRow, fCol, self.verticalLayoutWidget_2)
-        self.label_2.setWordWrap(True)
+
 
     def cellClicked(self, row,col):
         strList = ["- PROPERTIES -"]
@@ -363,7 +378,7 @@ class Ui_MainWindow(object):
         self.textEdit.setPlainText(content)
         self.pushButton_3.clicked.connect(self.goBack)
     def goBack(self):
-        self.goBack_2(MainWindow)
+        self.setupUi(MainWindow, False)
 
     def goBack_2(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -446,12 +461,13 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        for k,v in self.dictOfObjs:
+        for k,v in self.dictOfObjs.items():
             if v.typeOfObj == "File":
                 self.FileCreator(v.name, v.row, v.col)
             elif v.typeOfObj == "Folder":
                 self.FolderCreator(v.name, v.row, v.col)
-
+        # print(self.dictOfObjs)
+#
 
 import mainRes
 
@@ -461,6 +477,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    ui.setupUi(MainWindow, True)
     MainWindow.show()
     sys.exit(app.exec_())
