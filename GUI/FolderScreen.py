@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def FolderUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -190,7 +190,7 @@ class Ui_MainWindow(object):
         self.fileLabel.setText(_translate("MainWindow", "FILE "))
         self.folderLabel.setText(_translate("MainWindow", "FOLDER"))
         self.label_6.setText(_translate("MainWindow", "BE RIGHT BACK"))
-import main_rc
+import mainRes
 
 
 if __name__ == "__main__":

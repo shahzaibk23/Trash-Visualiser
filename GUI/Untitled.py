@@ -142,16 +142,7 @@ class Ui_MainWindow(object):
             self.dictOfObjs = {}
             row = 0
             col = 0
-            def get_dir_size(start_path='.'):
-                total_size = 0
-                for dirpath, dirnames, filenames in os.walk(start_path):
-                    for f in filenames:
-                        fp = os.path.join(dirpath, f)
-                        # skip if it is symbolic link
-                        if not os.path.islink(fp):
-                            total_size += os.path.getsize(fp)
 
-                return total_size
             for i,v in enumerate(r):
                 addOn = []
                 col = i % 4
@@ -162,7 +153,7 @@ class Ui_MainWindow(object):
                 v.undelete()
                 if os.path.isdir(okPath):
                     typee = "Folder"
-                    size = get_dir_size(okPath)
+                    size = self.get_dir_size(okPath)
                     addOn.append([file for file in os.listdir(okPath) if os.path.isdir(okPath + "\\" + file)])
                     addOn.append([file for file in os.listdir(okPath) if os.path.isfile(okPath + "\\" + file)])
 
@@ -193,6 +184,16 @@ class Ui_MainWindow(object):
                 elif v.typeOfObj == "Folder":
                     self.FolderCreator(v.name, v.row, v.col)
 
+    def get_dir_size(self,start_path='.'):
+        total_size = 0
+        for dirpath, dirnames, filenames in os.walk(start_path):
+            for f in filenames:
+                fp = os.path.join(dirpath, f)
+                # skip if it is symbolic link
+                if not os.path.islink(fp):
+                    total_size += os.path.getsize(fp)
+
+        return total_size
     def FileCreator(self,nameOfFile, fRow, fCol):
         # ----------------------------FILE------------------
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -274,7 +275,10 @@ class Ui_MainWindow(object):
         index = (row * 4) + col
         obj = self.dictOfObjs[index]
         if obj.typeOfObj == "File":
-            self.FileUI(MainWindow, obj)
+            self.FileUI(MainWindow,None, obj, True, [])
+        elif obj.typeOfObj == "Folder":
+            self.FolderUi(MainWindow, obj, True, False)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -285,7 +289,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setSortingEnabled(__sortingEnabled)
         self.label_2.setText(_translate("MainWindow", "--"))
 
-    def FileUI(self, MainWindow, selected):
+    def FileUI(self, MainWindow, cont, selected, main, lst):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -370,17 +374,29 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        winshell.undelete(selected.obj.original_filename())
-        file = open(selected.sahiPath, "r")
-        content = file.read()
-        file.close()
-        winshell.delete_file(selected.obj.original_filename())
-        self.textEdit.setPlainText(content)
-        self.pushButton_3.clicked.connect(self.goBack)
+        self.lst = lst
+        if cont == None:
+            winshell.undelete(selected.obj.original_filename())
+            file = open(selected.sahiPath, "r")
+            content = file.read()
+            file.close()
+            winshell.delete_file(selected.obj.original_filename())
+            self.textEdit.setPlainText(content)
+        else:
+            self.textEdit.setPlainText(cont)
+        if main == True:
+            self.pushButton_3.clicked.connect(self.goBack)
+        else:
+
+            self.pushButton_3.clicked.connect(self.goCustomBack)
+
+    def goCustomBack(self):
+        self.FolderUi(MainWindow, self.lst[0], self.lst[1], True)
+        # self.setupUi(MainWindow, False)
     def goBack(self):
         self.setupUi(MainWindow, False)
 
-    def goBack_2(self, MainWindow):
+    def FolderUi(self, MainWindow, selected, main, iter):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -389,22 +405,34 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(0, 99, 900, 581))
+        self.tableWidget.setGeometry(QtCore.QRect(0, 160, 900, 520))
         self.tableWidget.setObjectName("tableWidget")
-        #         self.tableWidget.setColumnCount(1)
-        #         self.tableWidget.setRowCount(1)
-        # -----------------------------------columns------------------
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setRowCount(6)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setVerticalHeaderItem(0, item)
-        # -----------------------------------rows-------------------
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
-        # ---------------------------------------------------------
-
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setItem(0, 0, item)
         self.tableWidget.horizontalHeader().setVisible(False)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(220)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(225)
         self.tableWidget.verticalHeader().setVisible(False)
         self.tableWidget.verticalHeader().setDefaultSectionSize(150)
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -415,7 +443,7 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(900, 269, 300, 411))
         self.label_2.setStyleSheet("\n"
-                                   "background-color: rgb(212, 212, 212); font: 63 10pt \"Segoe UI Semibold\";")
+                                   "background-color: rgb(212, 212, 212);")
         self.label_2.setObjectName("label_2")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(940, 120, 200, 50))
@@ -443,12 +471,33 @@ class Ui_MainWindow(object):
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
 
-        # ------------------------------------------------------
-        # self.verticalLayoutWidget.hide()
-        # self.verticalLayoutWidget_2.hide()
-        self.tableWidget.cellClicked.connect(self.cellClicked)
-        self.tableWidget.cellDoubleClicked.connect(self.cellDClicked)
-        # -----------------------------------------------------
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(0, 100, 901, 71))
+        self.label_5.setStyleSheet("\n"
+                                   "background-image: url(:/pic/images/patti_5.png);")
+        self.label_5.setText("")
+        self.label_5.setObjectName("label_5")
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(10, 112, 121, 41))
+        self.pushButton_3.setStyleSheet("background-image: url(:/Buttons/images/back_3.png);")
+        self.pushButton_3.setText("")
+        self.pushButton_3.setFlat(True)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(140, 110, 751, 41))
+        self.label_6.setStyleSheet("color: rgb(255, 255, 255);\n"
+                                   "font: 63 14pt \"Segoe UI Semibold\";")
+        self.label_6.setObjectName("label_6")
+        self.label_5.raise_()
+        self.tableWidget.raise_()
+        self.label.raise_()
+        self.label_2.raise_()
+        self.pushButton.raise_()
+        self.pushButton_2.raise_()
+        self.line.raise_()
+        self.line_2.raise_()
+        self.pushButton_3.raise_()
+        self.label_6.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 21))
@@ -461,13 +510,78 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        for k,v in self.dictOfObjs.items():
-            if v.typeOfObj == "File":
-                self.FileCreator(v.name, v.row, v.col)
-            elif v.typeOfObj == "Folder":
-                self.FolderCreator(v.name, v.row, v.col)
-        # print(self.dictOfObjs)
-#
+        self.tableWidget.cellClicked.connect(self.FolderCellClicked)
+        self.tableWidget.cellDoubleClicked.connect(self.folderCellDClicked)
+        if iter == False:
+            winshell.undelete(selected.obj.original_filename())
+        self.folderPath = selected.sahiPath
+        self.listOfFolderItems = os.listdir(selected.sahiPath)
+        sizeOfList = len(self.listOfFolderItems)
+        if sizeOfList >= 4:
+            self.tableWidget.setColumnCount(4)
+            self.tableWidget.setRowCount(math.ceil(sizeOfList / 4))
+        else:
+            self.tableWidget.setColumnCount(sizeOfList)
+            self.tableWidget.setRowCount(1)
+        row =0
+        col = 0
+        for i,v in enumerate(self.listOfFolderItems):
+            col = i % 4
+            if i != 0 and col == 0:
+                row += 1
+            ext = v.split(".")
+            if len(ext) == 1:
+                self.FolderCreator(v, row, col)
+            else:
+                self.FileCreator(v, row, col)
+
+        self.main = main
+        self.selected = selected
+        self.lstOfParams = [selected, main]
+
+        self.pushButton_3.clicked.connect(self.folderGopBack)
+
+    def folderGopBack(self):
+        if self.main == True:
+            winshell.delete_file(self.selected.obj.original_filename())
+            self.goBack()
+    def FolderCellClicked(self, row, col):
+        strList = ["- PROPERTIES -"]
+        index = (row * 4) + col
+        obj = self.listOfFolderItems[index]
+        objPath = self.folderPath + "\\\\" + obj
+        strList.append("NAME: " + obj)
+        extn = obj.split(".")
+        if len(extn) != 1:
+            strList.append("PATH: " + objPath)
+            ext = objPath.split(".")
+            if len(ext) == 1:
+                strList.append("Extension: FILE")
+            else:
+                strList.append("Extension: " + ext[1])
+            s = os.path.getsize(objPath)
+            strList.append("SIZE: " + "{0:.1f}".format((s / 1024) / 1024) + "MB")
+        elif len(extn) == 1:
+
+            strList.append("PATH: " + objPath)
+            strList.append("SIZE: " + str("{0:.1f}".format((self.get_dir_size(objPath) / 1024) / 1024)) + "MB")
+            strList.append("No Of Folders: " + str(len([file for file in os.listdir(objPath) if os.path.isdir(objPath + "\\" + file)])))
+            strList.append("No Of Files: " + str(len([file for file in os.listdir(objPath) if os.path.isfile(objPath + "\\" + file)])))
+            # print(obj.addOn)
+        # print(strList)
+        strLabel = "\n\n".join(strList)
+        _translate = QtCore.QCoreApplication.translate
+        self.label_2.setText(_translate("MainWindow", strLabel))
+
+    def folderCellDClicked(self, row, col):
+        index = (row * 4) + col
+        item = self.listOfFolderItems[index]
+        objPath = self.folderPath + "\\\\" + item
+        file = open(objPath, "r")
+        content = file.read()
+        file.close()
+        self.FileUI(MainWindow, content, None, False, self.lstOfParams)
+
 
 import mainRes
 
