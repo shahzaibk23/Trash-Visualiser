@@ -22,6 +22,7 @@ import os
 import math
 
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, c):
         MainWindow.setObjectName("MainWindow")
@@ -595,7 +596,7 @@ class Ui_MainWindow(object):
             self.FolderUi(MainWindow, None, False, True, objPath, self.lstOfParams)
 
     def RestoreButton(self):
-        
+
 
 
 

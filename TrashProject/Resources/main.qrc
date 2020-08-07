@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="header">
+    <file>images/btn-1_3.png</file>
+    <file>images/Untitled-1.png</file>
+  </qresource>
+  <qresource prefix="Buttons">
+    <file>images/btn-2_2.png</file>
+    <file>images/back_3.png</file>
+  </qresource>
+  <qresource prefix="pic">
+    <file>images/patti_5.png</file>
+    <file>images/patti_4.png</file>
+    <file>images/patti_3.png</file>
+    <file>images/file.png</file>
+    <file>images/folder.png</file>
+    <file>images/patti_2.png</file>
+  </qresource>
+</RCC>

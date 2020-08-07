@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from QCodeEditor import QCodeEditor
 
 class Ui_MainWindow(object):
     def FileUI(self, MainWindow):
@@ -72,9 +72,11 @@ class Ui_MainWindow(object):
         self.label_6.setStyleSheet("color: rgb(255, 255, 255);\n"
 "font: 63 14pt \"Segoe UI Semibold\";")
         self.label_6.setObjectName("label_6")
-        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        # self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit = QCodeEditor(self.centralwidget)
         self.textEdit.setGeometry(QtCore.QRect(0, 170, 900, 520))
         self.textEdit.setObjectName("textEdit")
+        self.textEdit.show()
         self.label_5.raise_()
         self.label.raise_()
         self.label_2.raise_()
@@ -102,7 +104,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "File View"))
         self.label_2.setText(_translate("MainWindow", "uygyiunko"))
         self.label_6.setText(_translate("MainWindow", "BE RIGHT BACK"))
-import main_rc
+import mainRes
 
 
 if __name__ == "__main__":
@@ -110,6 +112,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    ui.FileUI(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
