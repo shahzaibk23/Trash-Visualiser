@@ -277,7 +277,7 @@ class Ui_MainWindow(object):
         if obj.typeOfObj == "File":
             self.FileUI(MainWindow,None, obj, True, [])
         elif obj.typeOfObj == "Folder":
-            self.FolderUi(MainWindow, obj, True, False)
+            self.FolderUi(MainWindow, obj, True, False, None, None)
 
 
     def retranslateUi(self, MainWindow):
@@ -391,12 +391,12 @@ class Ui_MainWindow(object):
             self.pushButton_3.clicked.connect(self.goCustomBack)
 
     def goCustomBack(self):
-        self.FolderUi(MainWindow, self.lst[0], self.lst[1], True)
+        self.FolderUi(MainWindow, self.lst[0], self.lst[1], True, self.lst[3], self.lst[4])
         # self.setupUi(MainWindow, False)
     def goBack(self):
         self.setupUi(MainWindow, False)
 
-    def FolderUi(self, MainWindow, selected, main, iter):
+    def FolderUi(self, MainWindow, selected, main, iter, path, lst ):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -514,8 +514,12 @@ class Ui_MainWindow(object):
         self.tableWidget.cellDoubleClicked.connect(self.folderCellDClicked)
         if iter == False:
             winshell.undelete(selected.obj.original_filename())
-        self.folderPath = selected.sahiPath
-        self.listOfFolderItems = os.listdir(selected.sahiPath)
+        if main == True:
+            self.folderPath = selected.sahiPath
+            self.listOfFolderItems = os.listdir(selected.sahiPath)
+        elif main == False:
+            self.folderPath = path
+            self.listOfFolderItems = os.listdir(path)
         sizeOfList = len(self.listOfFolderItems)
         if sizeOfList >= 4:
             self.tableWidget.setColumnCount(4)
@@ -537,7 +541,8 @@ class Ui_MainWindow(object):
 
         self.main = main
         self.selected = selected
-        self.lstOfParams = [selected, main]
+        self.lst = lst
+        self.lstOfParams = [selected, main, iter, path, lst]
 
         self.pushButton_3.clicked.connect(self.folderGopBack)
 
@@ -545,6 +550,9 @@ class Ui_MainWindow(object):
         if self.main == True:
             winshell.delete_file(self.selected.obj.original_filename())
             self.goBack()
+        if self.main == False:
+            self.FolderUi(MainWindow, self.lst[0], self.lst[1], True, self.lst[3], self.lst[4])
+
     def FolderCellClicked(self, row, col):
         strList = ["- PROPERTIES -"]
         index = (row * 4) + col
@@ -577,10 +585,18 @@ class Ui_MainWindow(object):
         index = (row * 4) + col
         item = self.listOfFolderItems[index]
         objPath = self.folderPath + "\\\\" + item
-        file = open(objPath, "r")
-        content = file.read()
-        file.close()
-        self.FileUI(MainWindow, content, None, False, self.lstOfParams)
+        if os.path.isfile(objPath):
+            file = open(objPath, "r")
+            content = file.read()
+            file.close()
+            self.FileUI(MainWindow, content, None, False, self.lstOfParams)
+        elif os.path.isdir(objPath):
+            # print(os.listdir(objPath))
+            self.FolderUi(MainWindow, None, False, True, objPath, self.lstOfParams)
+
+    def RestoreButton(self):
+        
+
 
 
 import mainRes
