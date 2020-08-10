@@ -37,7 +37,7 @@ Files and Folders are visualised seperately.
 <li> You'll be able to open further files and folders inside that folder, and so on.</li>
 </ul>
 <li> GO Back Button is found once you're inside any File or Folder, through which you can get back to the main window.</li>
-<li> In Order to Restore or Delete a File/Folder Single click on it from the main window, you'll see its properties being shown, then <b>CLick on RESTORE or DELETE button<b> </li>
+<li> In Order to Restore or Delete a File/Folder Single click on it from the main window, you'll see its properties being shown, then <b>CLick on RESTORE or DELETE button</b> </li>
 <ul>
 <li>RESTORE: The selected file/folder will be restores to its original location.</li>
 <li>DELETE: The selected file/folder will be permanently deleted from the recycle-bin as well.</li>
