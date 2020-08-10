@@ -7,3 +7,15 @@ Run this command
 ```ruby
 pip install winshell
 ```
+
+## HOW TO USE
+start by cloning this repository 
+```ruby
+$ git clone https://github.com/shahzaibk23/Trash-Visualiser
+```
+After cloning is successful
+```ruby
+$ cd Trash-Visualiser
+Trash-Visualiser> cd GUI
+Trash-Visualiser>GUI> python Untitled.py
+```
