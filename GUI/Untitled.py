@@ -25,6 +25,8 @@ import math
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, c):
+        self.currentItem = None
+        self.currentItemCheck = False
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -87,6 +89,8 @@ class Ui_MainWindow(object):
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
 
+        self.pushButton_2.clicked.connect(self.RestoreButton)
+        self.pushButton.clicked.connect(self.DeleteButton)
 
         #------------------------------------------------------
         # self.verticalLayoutWidget.hide()
@@ -246,6 +250,7 @@ class Ui_MainWindow(object):
         strList = ["- PROPERTIES -"]
         index = (row*4)+col
         obj = self.dictOfObjs[index]
+        self.currentItem = obj
         objPath = obj.sahiPath
         strList.append("NAME: "+ obj.name)
         if obj.typeOfObj == "File":
@@ -275,6 +280,7 @@ class Ui_MainWindow(object):
     def cellDClicked(self, row,col):
         index = (row * 4) + col
         obj = self.dictOfObjs[index]
+        self.currentItem = obj
         if obj.typeOfObj == "File":
             self.FileUI(MainWindow,None, obj, True, [])
         elif obj.typeOfObj == "Folder":
@@ -374,6 +380,10 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.pushButton_2.clicked.connect(self.RestoreButton)
+        self.pushButton.clicked.connect(self.DeleteButton)
+
         try:
             self.lst = lst
             if cont == None:
@@ -400,6 +410,7 @@ class Ui_MainWindow(object):
         self.setupUi(MainWindow, False)
 
     def FolderUi(self, MainWindow, selected, main, iter, path, lst ):
+        self.currentItemCheck = True
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -513,6 +524,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+   
         self.tableWidget.cellClicked.connect(self.FolderCellClicked)
         self.tableWidget.cellDoubleClicked.connect(self.folderCellDClicked)
         if iter == False:
@@ -594,11 +606,20 @@ class Ui_MainWindow(object):
             file.close()
             self.FileUI(MainWindow, content, None, False, self.lstOfParams)
         elif os.path.isdir(objPath):
-            # print(os.listdir(objPath))
             self.FolderUi(MainWindow, None, False, True, objPath, self.lstOfParams)
 
     def RestoreButton(self):
-        pass
+        if self.currentItemCheck == False:
+            winshell.undelete(self.currentItem.obj.original_filename())
+        self.setupUi(MainWindow, True)
+    def DeleteButton(self):
+        if self.currentItemCheck == False:
+            winshell.undelete(self.currentItem.obj.original_filename())
+        if self.currentItem.typeOfObj == "File":
+            os.remove(self.currentItem.sahiPath)
+        elif self.currentItem.typeOfObj == "Folder":
+            os.rmdir(self.currentItem.sahiPath)
+        self.setupUi(MainWindow, True)
 
     def msgBox(self, title, msg):
         a = QtWidgets.QMessageBox()
