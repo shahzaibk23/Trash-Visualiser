@@ -23,6 +23,7 @@ After a few seconds of processing, Trash-Visualiser Main Window will be opened
 ![1](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/1.PNG "img 1")
 This Window will show all the deleted files/folders in your recycle bin.
 Files and Folders are visualised seperately.
+
 ###FEAUTURES
 + Upon Single CLick on any File/Folder the details(properties) of it will be shown in the down right box.
 + Upon Double Click on any File:
