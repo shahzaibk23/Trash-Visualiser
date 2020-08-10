@@ -28,10 +28,10 @@ Files and Folders are visualised seperately.
 <ul>
 <li> Upon Single CLick on any File/Folder the details(properties) of it will be shown in the down right box. </li>
 <li> Upon Double Click on any File: </li>
-<ol>
+<ul>
 <li> If the Clicked File is .txt OR .py OR any other kind of sorce file that contains any kind of text in it, will be opened directly in the Window, so as you can view it. </li>
 <li> Any other file other than text files( Source Code Files included ), won;t be able to be opened, the program will show a message box saying that it can't be opened. </li>
-</ol>
+</ul>
 <li> Upon Double CLick on a Folder, the Folder will be opened </li>
 <ul>
 <li> You'll be able to open further files and folders inside that folder, and so on.</li>
