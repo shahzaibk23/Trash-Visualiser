@@ -1,46 +1,53 @@
 import winshell
 import os
 
-r = list(winshell.recycle_bin())
+def beginning():
+    r = list(winshell.recycle_bin())
 
-class DeletedObject:
-    def __init__(self, obj, typeOfObj):
-        self.obj = obj
-        self.typeOfObj = typeOfObj
+    class DeletedObject:
+        def __init__(self, obj, typeOfObj):
+            self.obj = obj
+            self.typeOfObj = typeOfObj
 
-dictOfObjs = {}
+    dictOfObjs = {}
 
 
-fmt = "{0:3}|{1:7}|{2:100}"
-for i,v in enumerate(r):
-    sr = i+1
-    total = v.original_filename().split('\\')
-    okPath = "\\\\".join(total)
-    v.undelete()
-    print(okPath)
-    if os.path.isdir(okPath):
-        typee = "Folder"
-    elif os.path.isfile(okPath):
-        typee = "File"
-    winshell.delete_file(okPath)
-    dictOfObjs[sr] = DeletedObject(v,typee)
+    fmt = "{0:3}|{1:7}|{2:100}"
+    for i,v in enumerate(r):
+        sr = i+1
+        total = v.original_filename().split('\\')
+        okPath = "\\\\".join(total)
+        v.undelete()
+        print(okPath)
+        if os.path.isdir(okPath):
+            typee = "Folder"
+        elif os.path.isfile(okPath):
+            typee = "File"
+        winshell.delete_file(okPath)
+        dictOfObjs[sr] = DeletedObject(v,typee)
 
-    print(fmt.format(sr,typee,total[-1]))
+        print(fmt.format(sr,typee,total[-1]))
+        selectItem(dictOfObjs)
 
 
 # print("dict", dictOfObjs[1].obj)
-n = eval(input("Enter Number "))
-try:
-    selected = dictOfObjs[n]
-    print("----", selected.obj)
-    x = selected.obj.original_filename().split("\\")
-    selected_path = "\\\\".join(x)
-    winshell.undelete(selected.obj.original_filename())
-    print("NAME: ", x[-1])
-    print(os.stat(selected_path))
-    winshell.delete_file(selected.obj.original_filename())
-except:
-    print("Enter a valid serial number")
+def selectItem(dictOfObjs):
+    n = eval(input("Enter Number "))
+    try:
+        selected = dictOfObjs[n]
+        print("----", selected.obj)
+        x = selected.obj.original_filename().split("\\")
+        selected_path = "\\\\".join(x)
+        winshell.undelete(selected.obj.original_filename())
+        print("NAME: ", x[-1])
+        print("PATH: ",selected_path)
+        if os.path.isfile():
+            print("TYPE: FILE")
+            print("SIZE: ", os.path.getsize(selected_path))
+        winshell.delete_file(selected.obj.original_filename())
+    except:
+        print("Enter a valid serial number")
+        selectItem(dictOfObjs)
 
 
 

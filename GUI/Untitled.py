@@ -374,17 +374,19 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        self.lst = lst
-        if cont == None:
-            winshell.undelete(selected.obj.original_filename())
-            file = open(selected.sahiPath, "r")
-            content = file.read()
-            file.close()
-            winshell.delete_file(selected.obj.original_filename())
-            self.textEdit.setPlainText(content)
-        else:
-            self.textEdit.setPlainText(cont)
+        try:
+            self.lst = lst
+            if cont == None:
+                winshell.undelete(selected.obj.original_filename())
+                file = open(selected.sahiPath, "r")
+                content = file.read()
+                file.close()
+                winshell.delete_file(selected.obj.original_filename())
+                self.textEdit.setPlainText(content)
+            else:
+                self.textEdit.setPlainText(cont)
+        except:
+            self.msgBox("ERROR", "Can't Open This Type of File")
         if main == True:
             self.pushButton_3.clicked.connect(self.goBack)
         else:
@@ -596,6 +598,14 @@ class Ui_MainWindow(object):
             self.FolderUi(MainWindow, None, False, True, objPath, self.lstOfParams)
 
     def RestoreButton(self):
+        pass
+
+    def msgBox(self, title, msg):
+        a = QtWidgets.QMessageBox()
+        a.setWindowTitle(title)
+        a.setText(msg)
+        a.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        a.exec_()
 
 
 
