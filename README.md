@@ -10,11 +10,11 @@ pip install winshell
 
 ## HOW TO USE
 start by cloning this repository 
-```ruby
+```python
 $ git clone https://github.com/shahzaibk23/Trash-Visualiser
 ```
 After cloning is successful
-```ruby
+```python
 $ cd Trash-Visualiser
 Trash-Visualiser> cd GUI
 Trash-Visualiser>GUI> python Untitled.py
