@@ -24,7 +24,7 @@ After a few seconds of processing, Trash-Visualiser Main Window will be opened
 This Window will show all the deleted files/folders in your recycle bin.
 Files and Folders are visualised seperately.
 
-###FEAUTURES
+### FEAUTURES
 + Upon Single CLick on any File/Folder the details(properties) of it will be shown in the down right box.
 + Upon Double Click on any File:
 ..1. If the Clicked File is .txt OR .py OR any other kind of sorce file that contains any kind of text in it, will be opened directly in the Window, so as you can view it.
