@@ -1,5 +1,5 @@
 ## TRASH VISUALISER <sup>v1.0</sup>
-A GUI-based Python Desktop Application, that will show all your deleted items in a better visual representation. You'll be able to open those folders/ files as well as delete and restore them in a GUI.
+This is GUI-based Python Desktop Application, that will show all your deleted items inside the Recycle-bin in a better visual representation. You'll be able to open those folders/ files in the GUI, as well as delete and restore them from the GUI, in an effective manner.
 
 ### PREQUISITIES
 **winshell** library should be installed in your system, before using this program. if not
