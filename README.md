@@ -1,4 +1,4 @@
-## TRASH VISUALISER
+## TRASH VISUALISER <sup>v1.0</sup>
 A GUI-based Python Desktop Application, that will show all your deleted items in a better visual representation. You'll be able to open those folders/ files as well as delete and restore them in a GUI.
 
 ### PREQUISITIES
