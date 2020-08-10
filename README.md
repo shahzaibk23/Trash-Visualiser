@@ -20,4 +20,4 @@ Trash-Visualiser> cd GUI
 Trash-Visualiser>GUI> python Untitled.py
 ```
 After a few seconds of processing, Trash-Visualiser Main Window will be opened
-<img src="./screenchots/1.png">
+![1](./screenshots/1.png "img 1")
