@@ -20,6 +20,7 @@ from PyQt5.QtCore import Qt
 import winshell
 import os
 import math
+import shutil
 
 
 
@@ -110,12 +111,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.label_2.setWordWrap(True)
-
-
-
-
-
-
+        self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         if c == True:
             #---------------------------------------------------------Listing all the files from Trash---------------------
@@ -247,44 +243,49 @@ class Ui_MainWindow(object):
 
 
     def cellClicked(self, row,col):
-        strList = ["- PROPERTIES -"]
-        index = (row*4)+col
-        obj = self.dictOfObjs[index]
-        self.currentItem = obj
-        objPath = obj.sahiPath
-        strList.append("NAME: "+ obj.name)
-        if obj.typeOfObj == "File":
-            strList.append("PATH: "+objPath)
-            ext = objPath.split(".")
-            if len(ext) == 1:
-                strList.append("Extension: FILE")
-            else:
-                strList.append("Extension: "+ ext[1])
-            strList.append("SIZE: "+ "{0:.1f}".format((obj.size / 1024) / 1024)+"MB")
-        elif obj.typeOfObj == "Folder":
+        try:
+            strList = ["- PROPERTIES -"]
+            index = (row*4)+col
+            obj = self.dictOfObjs[index]
+            self.currentItem = obj
+            objPath = obj.sahiPath
+            strList.append("NAME: "+ obj.name)
+            if obj.typeOfObj == "File":
+                strList.append("PATH: "+objPath)
+                ext = objPath.split(".")
+                if len(ext) == 1:
+                    strList.append("Extension: FILE")
+                else:
+                    strList.append("Extension: "+ ext[1])
+                strList.append("SIZE: "+ "{0:.1f}".format((obj.size / 1024) / 1024)+"MB")
+            elif obj.typeOfObj == "Folder":
 
-            strList.append("PATH: "+objPath)
-            strList.append("SIZE: "+str("{0:.1f}".format((obj.size / 1024) / 1024))+ "MB")
-            strList.append("No Of Folders: "+ str(len(obj.addOn[0])))
-            strList.append("No Of Files: "+ str(len(obj.addOn[1])))
-            # print(obj.addOn)
-        strLabel = "\n\n".join(strList)
-        _translate = QtCore.QCoreApplication.translate
-        self.label_2.setText(_translate("MainWindow", strLabel))
-        # print(strList)
+                strList.append("PATH: "+objPath)
+                strList.append("SIZE: "+str("{0:.1f}".format((obj.size / 1024) / 1024))+ "MB")
+                strList.append("No Of Folders: "+ str(len(obj.addOn[0])))
+                strList.append("No Of Files: "+ str(len(obj.addOn[1])))
+                # print(obj.addOn)
+            strLabel = "\n\n".join(strList)
+            _translate = QtCore.QCoreApplication.translate
+            self.label_2.setText(_translate("MainWindow", strLabel))
+        except:
+            pass
 
 
 
 
 
     def cellDClicked(self, row,col):
-        index = (row * 4) + col
-        obj = self.dictOfObjs[index]
-        self.currentItem = obj
-        if obj.typeOfObj == "File":
-            self.FileUI(MainWindow,None, obj, True, [])
-        elif obj.typeOfObj == "Folder":
-            self.FolderUi(MainWindow, obj, True, False, None, None)
+        try:
+            index = (row * 4) + col
+            obj = self.dictOfObjs[index]
+            self.currentItem = obj
+            if obj.typeOfObj == "File":
+                self.FileUI(MainWindow,None, obj, True, [])
+            elif obj.typeOfObj == "Folder":
+                self.FolderUi(MainWindow, obj, True, False, None, None)
+        except:
+            self.msgBox("Empty Cell", "Please select a valid cell")
 
 
     def retranslateUi(self, MainWindow):
@@ -380,9 +381,10 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.textEdit.setReadOnly(True)
 
-        self.pushButton_2.clicked.connect(self.RestoreButton)
-        self.pushButton.clicked.connect(self.DeleteButton)
+        # self.pushButton_2.clicked.connect(self.RestoreButton)
+        # self.pushButton.clicked.connect(self.DeleteButton)
 
         try:
             self.lst = lst
@@ -523,8 +525,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
-   
         self.tableWidget.cellClicked.connect(self.FolderCellClicked)
         self.tableWidget.cellDoubleClicked.connect(self.folderCellDClicked)
         if iter == False:
@@ -569,44 +571,53 @@ class Ui_MainWindow(object):
             self.FolderUi(MainWindow, self.lst[0], self.lst[1], True, self.lst[3], self.lst[4])
 
     def FolderCellClicked(self, row, col):
-        strList = ["- PROPERTIES -"]
-        index = (row * 4) + col
-        obj = self.listOfFolderItems[index]
-        objPath = self.folderPath + "\\\\" + obj
-        strList.append("NAME: " + obj)
-        extn = obj.split(".")
-        if len(extn) != 1:
-            strList.append("PATH: " + objPath)
-            ext = objPath.split(".")
-            if len(ext) == 1:
-                strList.append("Extension: FILE")
-            else:
-                strList.append("Extension: " + ext[1])
-            s = os.path.getsize(objPath)
-            strList.append("SIZE: " + "{0:.1f}".format((s / 1024) / 1024) + "MB")
-        elif len(extn) == 1:
+        try:
+            strList = ["- PROPERTIES -"]
+            index = (row * 4) + col
+            obj = self.listOfFolderItems[index]
+            objPath = self.folderPath + "\\\\" + obj
+            strList.append("NAME: " + obj)
+            extn = obj.split(".")
+            if len(extn) != 1:
+                strList.append("PATH: " + objPath)
+                ext = objPath.split(".")
+                if len(ext) == 1:
+                    strList.append("Extension: FILE")
+                else:
+                    strList.append("Extension: " + ext[1])
+                s = os.path.getsize(objPath)
+                strList.append("SIZE: " + "{0:.1f}".format((s / 1024) / 1024) + "MB")
+            elif len(extn) == 1:
 
-            strList.append("PATH: " + objPath)
-            strList.append("SIZE: " + str("{0:.1f}".format((self.get_dir_size(objPath) / 1024) / 1024)) + "MB")
-            strList.append("No Of Folders: " + str(len([file for file in os.listdir(objPath) if os.path.isdir(objPath + "\\" + file)])))
-            strList.append("No Of Files: " + str(len([file for file in os.listdir(objPath) if os.path.isfile(objPath + "\\" + file)])))
-            # print(obj.addOn)
-        # print(strList)
-        strLabel = "\n\n".join(strList)
-        _translate = QtCore.QCoreApplication.translate
-        self.label_2.setText(_translate("MainWindow", strLabel))
+                strList.append("PATH: " + objPath)
+                strList.append("SIZE: " + str("{0:.1f}".format((self.get_dir_size(objPath) / 1024) / 1024)) + "MB")
+                strList.append("No Of Folders: " + str(len([file for file in os.listdir(objPath) if os.path.isdir(objPath + "\\" + file)])))
+                strList.append("No Of Files: " + str(len([file for file in os.listdir(objPath) if os.path.isfile(objPath + "\\" + file)])))
+                # print(obj.addOn)
+            # print(strList)
+            strLabel = "\n\n".join(strList)
+            _translate = QtCore.QCoreApplication.translate
+            self.label_2.setText(_translate("MainWindow", strLabel))
+        except:
+            pass
 
     def folderCellDClicked(self, row, col):
-        index = (row * 4) + col
-        item = self.listOfFolderItems[index]
-        objPath = self.folderPath + "\\\\" + item
-        if os.path.isfile(objPath):
-            file = open(objPath, "r")
-            content = file.read()
-            file.close()
-            self.FileUI(MainWindow, content, None, False, self.lstOfParams)
-        elif os.path.isdir(objPath):
-            self.FolderUi(MainWindow, None, False, True, objPath, self.lstOfParams)
+        try:
+            index = (row * 4) + col
+            item = self.listOfFolderItems[index]
+            objPath = self.folderPath + "\\\\" + item
+            if os.path.isfile(objPath):
+                try:
+                    file = open(objPath, "r")
+                    content = file.read()
+                    file.close()
+                    self.FileUI(MainWindow, content, None, False, self.lstOfParams)
+                except:
+                    self.msgBox("ERROR", "Can't Open This Type of File")
+            elif os.path.isdir(objPath):
+                self.FolderUi(MainWindow, None, False, True, objPath, self.lstOfParams)
+        except:
+            self.msgBox("Empty Cell", "Please select a valid cell")
 
     def RestoreButton(self):
         if self.currentItemCheck == False:
@@ -618,7 +629,7 @@ class Ui_MainWindow(object):
         if self.currentItem.typeOfObj == "File":
             os.remove(self.currentItem.sahiPath)
         elif self.currentItem.typeOfObj == "Folder":
-            os.rmdir(self.currentItem.sahiPath)
+            shutil.rmtree(self.currentItem.sahiPath)
         self.setupUi(MainWindow, True)
 
     def msgBox(self, title, msg):

@@ -10,9 +10,15 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from QCodeEditor import QCodeEditor
+from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox)
 
 class Ui_MainWindow(object):
+    def closeEvent(self, event):
+        event.ignore:
+            print("jiaisjindas")
+
     def FileUI(self, MainWindow):
+        # super().__init__()
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -72,8 +78,8 @@ class Ui_MainWindow(object):
         self.label_6.setStyleSheet("color: rgb(255, 255, 255);\n"
 "font: 63 14pt \"Segoe UI Semibold\";")
         self.label_6.setObjectName("label_6")
-        # self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
-        self.textEdit = QCodeEditor(self.centralwidget)
+        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        # self.textEdit = QCodeEditor(self.centralwidget)
         self.textEdit.setGeometry(QtCore.QRect(0, 170, 900, 520))
         self.textEdit.setObjectName("textEdit")
         self.textEdit.show()
@@ -98,6 +104,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
