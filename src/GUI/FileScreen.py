@@ -14,11 +14,12 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox)
 
 class Ui_MainWindow(object):
     def closeEvent(self, event):
-        event.ignore:
-            print("jiaisjindas")
+        event.accept()
+        print("jiaisjindas")
 
     def FileUI(self, MainWindow):
         # super().__init__()
+        MainWindow.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))

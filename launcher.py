@@ -396,6 +396,7 @@ class Ui_MainWindow(object):
                 winshell.delete_file(selected.obj.original_filename())
                 self.textEdit.setPlainText(content)
             else:
+
                 self.textEdit.setPlainText(cont)
         except:
             self.msgBox("ERROR", "Can't Open This Type of File")
@@ -411,7 +412,9 @@ class Ui_MainWindow(object):
     def goBack(self):
         self.setupUi(MainWindow, False)
 
-    def FolderUi(self, MainWindow, selected, main, iter, path, lst ):
+    def FolderUi(self, MainW, selected, main, iter, path, lst ):
+        MainWindow = MainW
+        # MainWindow.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
         self.currentItemCheck = True
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
