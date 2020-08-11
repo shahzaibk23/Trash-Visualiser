@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
 
     def FileUI(self, MainWindow):
         # super().__init__()
-        # MainWindow.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
+        MainWindow.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setMinimumSize(QtCore.QSize(1200, 700))
@@ -106,15 +106,13 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        _translate = QtCore.QCoreApplication.translate
-        self.label_6.setText(_translate("MainWindow","Go Back to Main Window before closing the program, unless the folder will be Restored" ))
 
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "File View"))
         self.label_2.setText(_translate("MainWindow", "uygyiunko"))
-        # self.label_6.setText(_translate("MainWindow", "BE RIGHT BACK"))
+        self.label_6.setText(_translate("MainWindow", "BE RIGHT BACK"))
 import mainRes
 
 

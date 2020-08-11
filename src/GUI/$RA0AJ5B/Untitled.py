@@ -396,9 +396,7 @@ class Ui_MainWindow(object):
                 winshell.delete_file(selected.obj.original_filename())
                 self.textEdit.setPlainText(content)
             else:
-                _translate = QtCore.QCoreApplication.translate
-                self.label_6.setText(_translate("MainWindow",
-                                                "Go Back to Main Window before closing the program, unless the folder will be Restored"))
+
                 self.textEdit.setPlainText(cont)
         except:
             self.msgBox("ERROR", "Can't Open This Type of File")
@@ -414,8 +412,8 @@ class Ui_MainWindow(object):
     def goBack(self):
         self.setupUi(MainWindow, False)
 
-    def FolderUi(self, MainWindow, selected, main, iter, path, lst ):
-        # MainWindow = MainW
+    def FolderUi(self, MainW, selected, main, iter, path, lst ):
+        MainWindow = MainW
         # MainWindow.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
         self.currentItemCheck = True
         MainWindow.setObjectName("MainWindow")
@@ -531,10 +529,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-
-        _translate = QtCore.QCoreApplication.translate
-        self.label_6.setText(_translate("MainWindow",
-                                        "Go Back to Main Window before closing the program, unless the folder will be Restored"))
 
         self.tableWidget.cellClicked.connect(self.FolderCellClicked)
         self.tableWidget.cellDoubleClicked.connect(self.folderCellDClicked)
