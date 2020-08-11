@@ -16,8 +16,7 @@ $ git clone https://github.com/shahzaibk23/Trash-Visualiser
 After cloning is successful
 ```ruby
 cd Trash-Visualiser
-Trash-Visualiser> cd GUI
-Trash-Visualiser>GUI> python Untitled.py
+Trash-Visualiser> python launcher.py
 ```
 After a few seconds of processing, Trash-Visualiser Main Window will be opened
 ![1](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/1.PNG "img 1")
