@@ -48,7 +48,7 @@ Files and Folders are visualised seperately.
 </ul>
 </ul>
 
-![3](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/3.GIF "img 3")
+![3](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/3.gif "img 3")
 
 ### Using CLI-version
 After cloning is successful, cd into the repository folder.
