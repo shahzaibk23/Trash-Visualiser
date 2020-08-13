@@ -42,3 +42,15 @@ Files and Folders are visualised seperately.
 <li>DELETE: The selected file/folder will be permanently deleted from the recycle-bin as well.</li>
 </ul>
 </ul>
+
+### Using CLI-version
+After cloning is successful, cd into the repository folder.
+```ruby
+cd Trash-Visualiser
+```
+After that 
+```ruby
+Trash-Visualiser> cd src/CLI/
+Trash-Visualiser> python main.py
+```
+The exact same operations will be performed but in Command Line Interface.
