@@ -18,6 +18,11 @@ After cloning is successful
 cd Trash-Visualiser
 Trash-Visualiser> python launcher.py
 ```
+#### [CAUTION]⚠️
+It may happen that the windows will ask you to create some folders that doesn't exist, these will be the folders that you'd have deleted once. <br />
+Simply Click <b>YES</b>, this way the folders you once had deleted will be created again temporarily, so no need to Panic on that, let it happen. <br />
+![2](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/2.PNG "img 2") <br />
+
 After a few seconds of processing, Trash-Visualiser Main Window will be opened
 ![1](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/1.PNG "img 1")
 This Window will show all the deleted files/folders in your recycle bin.
