@@ -32,7 +32,7 @@ def beginning():
 
 # print("dict", dictOfObjs[1].obj)
 def selectItem(dictOfObjs):
-    n = eval(input("Enter Number "))
+    n = eval(input("Enter Number of item to be opened:  "))
     try:
         selected = dictOfObjs[n]
         print("----", selected.obj)
