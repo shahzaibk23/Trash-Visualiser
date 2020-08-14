@@ -18,7 +18,7 @@ def beginning():
         total = v.original_filename().split('\\')
         okPath = "\\\\".join(total)
         v.undelete()
-        print(okPath)
+
         if os.path.isdir(okPath):
             typee = "Folder"
         elif os.path.isfile(okPath):
@@ -27,7 +27,7 @@ def beginning():
         dictOfObjs[sr] = DeletedObject(v,typee)
 
         print(fmt.format(sr,typee,total[-1]))
-        selectItem(dictOfObjs)
+    selectItem(dictOfObjs)
 
 
 # print("dict", dictOfObjs[1].obj)
@@ -41,26 +41,27 @@ def selectItem(dictOfObjs):
         winshell.undelete(selected.obj.original_filename())
         print("NAME: ", x[-1])
         print("PATH: ",selected_path)
-        if os.path.isfile():
+        if os.path.isfile(selected_path):
             print("TYPE: FILE")
             print("SIZE: ", os.path.getsize(selected_path))
+        elif os.path.isdir(selected_path):
+            print("TYPE: FOLDER")
+            print("SIZE: ", get_dir_size(selected_path))
         winshell.delete_file(selected.obj.original_filename())
     except:
         print("Enter a valid serial number")
         selectItem(dictOfObjs)
 
+def get_dir_size(self,start_path='.'):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            # skip if it is symbolic link
+            if not os.path.islink(fp):
+                total_size += os.path.getsize(fp)
 
+    return total_size
 
-# path = r[0].original_filename()
-# r[0].undelete()
-#
-# print(path)
-
-# import pathlib
-# a = pathlib.Path("C:\\Users\\Shahzaib\\Desktop\\Wireframes")
-# print(a)
-#
-# import os
-# o = os.path.isdir("C:\\Users\\Shahzaib\\Desktop\\Wireframes")
-# winshell.delete_file("C:\\Users\\Shahzaib\\Desktop\\Wireframes")
-# print(o)
+#-------------DRIVER CODE-------------
+beginning()
