@@ -60,5 +60,5 @@ After that
 Trash-Visualiser> cd src/CLI/
 Trash-Visualiser> python main.py
 ```
-The exact same operations will be performed but in Command Line Interface.
+The exact same operations will be performed but in Command Line Interface.<br \>
 ![4](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/4.png" img 4") 
