@@ -61,4 +61,4 @@ Trash-Visualiser> cd src/CLI/
 Trash-Visualiser> python main.py
 ```
 The exact same operations will be performed but in Command Line Interface.
-![4](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/4.PNG "img 4")
+![4](https://github.com/shahzaibk23/Trash-Visualiser/blob/master/Sceenshots/4.png" img 4") 
