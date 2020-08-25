@@ -7,6 +7,10 @@ Run this command
 ```ruby
 pip install winshell
 ```
+The GUI requires **PyQt5** as well
+```ruby
+pip install PyQt5
+```
 
 ## HOW TO USE
 start by cloning this repository 
